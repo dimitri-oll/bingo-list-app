@@ -1,1 +1,29 @@
-<p>home works!</p>
+<div class="home__container">
+  <div class="home__titre">
+    @if (total > 0) {
+      <button mat-stroked-button (click)="reset()">
+        <mat-icon>refresh</mat-icon>
+        Réinitialiser
+      </button>
+    }
+  </div>
+
+  @if (total === 0) {
+      <mat-icon>checklist</mat-icon>
+      <p>Aucun item. Ajoutez-en depuis la page <strong>Edit</strong>.</p>
+  } @else {
+    <div class="home__grid">
+      @for (item of bingoService.items(); track item.id) {
+        <div class="home__grid-cell" [class.checked]="item.checked" (click)="toggle(item.id)">
+          <mat-checkbox
+            [checked]="item.checked"
+            (click)="$event.stopPropagation()"
+            (change)="toggle(item.id)"
+            color="primary">
+          </mat-checkbox>
+          <span class="home__grid-cell-text">{{ item.text }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

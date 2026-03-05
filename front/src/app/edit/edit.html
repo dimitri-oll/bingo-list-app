@@ -1,1 +1,65 @@
-<p>edit works!</p>
+<div class="edit-container">
+  <h1>Modifier la liste</h1>
+
+  <!-- Formulaire d'ajout -->
+  <div class="add-form">
+    <mat-form-field appearance="outline" class="add-input">
+      <mat-label>Nouvel item</mat-label>
+      <input
+        matInput
+        [(ngModel)]="newItemText"
+        (keyup.enter)="addItem()"
+        placeholder="Ex: Boire un café" />
+    </mat-form-field>
+    <button mat-fab extended (click)="addItem()" [disabled]="!newItemText.trim()">
+      <mat-icon>add</mat-icon>
+      Ajouter
+    </button>
+  </div>
+
+  <!-- Liste des items -->
+  @if (bingoService.items().length === 0) {
+    <div class="empty-state">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <p>Aucun item pour l'instant.</p>
+    </div>
+  } @else {
+    <mat-list>
+      @for (item of bingoService.items(); track item.id) {
+        <mat-list-item>
+          @if (editingId() === item.id) {
+            <!-- Mode édition inline -->
+            <div class="edit-inline">
+              <mat-form-field appearance="outline" class="edit-input">
+                <input
+                  matInput
+                  [(ngModel)]="editingText"
+                  [ngModel]="editingText()"
+                  (ngModelChange)="editingText.set($event)"
+                  (keyup.enter)="saveEdit()"
+                  (keyup.escape)="cancelEdit()" />
+              </mat-form-field>
+              <button mat-icon-button color="primary" (click)="saveEdit()">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button (click)="cancelEdit()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <!-- Mode affichage -->
+            <span matListItemTitle>{{ item.text }}</span>
+            <div matListItemMeta class="item-actions">
+              <button mat-icon-button (click)="startEdit(item.id, item.text)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteItem(item.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</div>

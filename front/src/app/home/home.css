@@ -1,0 +1,28 @@
+.home__container {
+    margin: auto;
+    width: 95vw;
+}
+
+.home__grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.home__grid-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    border: 2px solid var(--mat-sys-outline-variant, #ccc);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.home__grid-cell.checked {
+    background: var(--mat-sys-primary-container, #d0e4ff);
+    border-color: var(--mat-sys-primary, #1a73e8);
+}
